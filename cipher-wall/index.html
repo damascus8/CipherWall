@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cipher Wall 🔐</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Cipher Wall 🔐</h1>
+
+    <label>Enter your message:</label><br>
+    <textarea id="message" rows="4" cols="50"></textarea><br><br>
+
+    <label>Enter secret key:</label><br>
+    <input type="text" id="key"><br><br>
+
+
+
+<label>Choose encryption type:</label>
+<select id="encryptionType">
+  <option value="aes">AES</option>
+  <option value="base64">Base64</option>
+  <option value="rot13">ROT13</option>
+  <option value="caesar">Caesar Cipher</option>
+  <option value="morse">Morse Code</option>
+
+</select><br><br>
+<label>Choose action:</label>
+<select id="action">
+  <option value="encrypt">Encrypt</option>
+  <option value="decrypt">Decrypt</option>
+</select><br><br>
+
+
+<br><br>
+
+    <button onclick="process()">Go</button>
+<button onclick="clearScreen()"  class="clear-btn">Clear Screen</button><br><br>
+
+    <label>Result:</label><br>
+    <textarea id="result" rows="4" cols="50" readonly></textarea><br><br>
+    
+<button onclick="downloadResult()" class="download-btn">📥 Download Result</button>
+<div id="noteHistory"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+  <small style="color: gray;text-align: center;align-items: center;">⚠️ Never share your encryption key publicly. For educational use only.</small>
+<div class="footer">
+  Made with ❤️ by <a href="https://www.linkedin.com/in/siddharth-shrivastav-a47480167" target="_blank">Siddharth Shrivastav</a>
+</div>
+<!-- <a href="#" onclick="alert('Show manual content here')">❓ How to use</a> -->
+<p style="text-align:right;">
+  <a href="help.html" target="_blank">❓ How to Use</a>
+</p>
+
+
+
+</body>
+</html>
