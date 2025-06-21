@@ -75,3 +75,13 @@ label {
 .footer a:hover {
   text-decoration: underline;
 }
+#qrSection {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#qrcode canvas {
+  margin: 10px auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
