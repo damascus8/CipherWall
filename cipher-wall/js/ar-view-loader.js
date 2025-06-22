@@ -4,7 +4,7 @@
 
   document.addEventListener("DOMContentLoaded", () => {
 
-    /** uncomment after testing
+    
     // Simulate fetching QR data (replace with actual QR scanner later)
     const urlParams = new URLSearchParams(window.location.search);
     const data = decodeURIComponent(urlParams.get("data") || "");
@@ -24,16 +24,6 @@
     } else {
       animateText(data);
     }
-       */
-      document.addEventListener("DOMContentLoaded", () => {
-        const textEl = document.getElementById("textDisplay");
-        textEl.setAttribute("text", "value: 👋 Hello from AR!");
-      });
-
-
-
-
-
   });
 
   function submitDecryptionKey() {
@@ -44,14 +34,16 @@
       const bytes = CryptoJS.AES.decrypt(encryptedText, key);
       const decrypted = bytes.toString(CryptoJS.enc.Utf8);
 
-       console.log("🔓 Decrypted:", decrypted); 
+      console.info("SID",decrypted);
+      //  console.log("🔓 Decrypted:", decrypted); 
 
       if (!decrypted) throw "Invalid decryption";
 
       animateDecryption(encryptedText, decrypted);
       document.getElementById("decryptPrompt").style.display = "none";
     } catch (e) {
-        console.error("❌ Error:", e);
+        // console.error("❌ Error:", e);
+        console.error("SID Error:", e);
       alert("❌ Invalid Key or Corrupt Data.");
     }
   }
