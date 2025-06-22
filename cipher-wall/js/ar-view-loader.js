@@ -12,7 +12,8 @@
     const textEl = document.getElementById("textDisplay");
 
     if (!data) {
-      textEl.setAttribute("text", "value: ❌ Invalid QR data");
+      // textEl.setAttribute("text", "value: ❌ Invalid QR data");
+      textEl.setAttribute("text", "value:  Invalid QR data");
       return;
     }
 
@@ -20,7 +21,8 @@
       isEncrypted = true;
       encryptedText = data;
       document.getElementById("decryptPrompt").style.display = "block";
-      textEl.setAttribute("text", "value: 🔐 Encrypted Message...\nPlease enter key.");
+      // textEl.setAttribute("text", "value: 🔐 Encrypted Message...\nPlease enter key.");
+      textEl.setAttribute("text", "value:  Encrypted Message...\nPlease enter key.");
     } else {
       animateText(data);
     }
@@ -63,6 +65,9 @@
     }, 80);
   }
 
+
+
+/**
   function animateDecryption(from, to) {
     const textEl = document.getElementById("textDisplay");
     textEl.setAttribute("text", "value: ");
@@ -78,3 +83,43 @@
       if (i > to.length) clearInterval(interval);
     }, 100);
   }
+
+   */
+
+
+function animateDecryption(from, to) {
+  const textEl = document.getElementById("textDisplay");
+
+  if (!textEl) {
+    console.error("textDisplay not found in scene!");
+    return;
+  }
+
+  textEl.setAttribute("text", "value: ");
+  let i = 0;
+
+  const interval = setInterval(() => {
+    let partial = "";
+    for (let j = 0; j < to.length; j++) {
+        
+      partial += j < i ? to[j] : from[j] || ".";
+      console.info("Displaying:", partial);
+    }
+    textEl.setAttribute("text", "value", partial);
+    i++;
+
+    if (i > to.length) clearInterval(interval);
+  }, 100);
+}
+
+
+
+
+
+
+
+
+
+
+
+
