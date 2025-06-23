@@ -105,7 +105,9 @@ function animateDecryption(from, to) {
       partial += j < i ? to[j] : from[j] || ".";
       console.info("Displaying:", partial);
     }
-    textEl.setAttribute("text", "value", partial);
+    // textEl.setAttribute("text", "value", partial);
+    textEl.setAttribute("text", `value: ${partial}`);
+
     i++;
 
     if (i > to.length) clearInterval(interval);
