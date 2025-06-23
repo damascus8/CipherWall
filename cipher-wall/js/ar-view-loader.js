@@ -70,24 +70,6 @@
 
 
 
-/**
-  function animateDecryption(from, to) {
-    const textEl = document.getElementById("textDisplay");
-    textEl.setAttribute("text", "value: ");
-    let i = 0;
-
-    const interval = setInterval(() => {
-      let partial = "";
-      for (let j = 0; j < to.length; j++) {
-        partial += j < i ? to[j] : from[j] || ".";
-      }
-      textEl.setAttribute("text", "value: " + partial);
-      i++;
-      if (i > to.length) clearInterval(interval);
-    }, 100);
-  }
-
-   */
 
 
 function animateDecryption(from, to) {

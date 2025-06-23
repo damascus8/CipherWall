@@ -10,7 +10,7 @@
     <!-- CryptoJS for decryption -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
-    <!-- ✅ CORRECTED SCRIPT PATH -->
+    <!-- Your Script -->
     <script src="/js/ar-view-loader.js"></script>
 
     <style>
@@ -40,25 +40,16 @@
     <!-- 🧠 AR Scene -->
     <a-scene embedded arjs>
       <a-marker preset="hiro">
-      
-        <!-- <a-entity 
+        <a-entity 
           id="textDisplay"
-          position="0 1 0"
-          text="value: Loading...; color: yellow; align: center"
-          scale="2 2 2"
+          position="0 1.5 0"
+          text="value: Waiting for QR data...; color: yellow; align: center"
+          scale="3 3 3"
         ></a-entity>
-       -->
-  <a-entity 
-      id="textDisplay"
-      position="0 0.5 0"
-      scale="3 3 3"
-      text="value: Waiting...; color: black; align: center; width: 4">
-    </a-entity>
-
       </a-marker>
-      <!-- <a-entity camera></a-entity> -->
-       <a-entity camera="active: true"></a-entity>
 
+      <!-- Camera -->
+      <a-entity camera></a-entity>
     </a-scene>
 
   </body>
