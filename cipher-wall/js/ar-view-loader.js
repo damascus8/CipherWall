@@ -24,7 +24,9 @@
       // textEl.setAttribute("text", "value: 🔐 Encrypted Message...\nPlease enter key.");
       textEl.setAttribute("text", "value:  Encrypted Message...\nPlease enter key.");
     } else {
+      console.info("else of main",data);
       animateText(data);
+      
     }
   });
 
@@ -51,6 +53,7 @@
   }
 
   function animateText(text) {
+    console.info("animate Text fn",text);
     const textEl = document.getElementById("textDisplay");
     textEl.setAttribute("text", "value: ");
     let index = 0;
