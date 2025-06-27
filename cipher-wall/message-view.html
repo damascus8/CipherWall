@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📨 Message Viewer - Cipher Wall</title>
+
+  <link rel="stylesheet" href="/css/message-view.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+  <div class="overlay">
+    <div class="message-container">
+      <h1>📨 Your Secret Message</h1>
+      <p id="status">Decrypting...</p>
+      <!-- <div id="messageDisplay" class="hidden"></div> -->
+    <pre id="messageDisplay" class="hidden"></pre>
+
+      <div id="keyPrompt" class="key-box hidden">
+        <label>Enter Key 🔑:</label>
+        <input type="text" id="keyInput" placeholder="Enter your key here" />
+        <button onclick="decryptMessage()">Decrypt</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/encryption.js"></script>
+  <script src="/js/message-view.js"></script>
+</body>
+</html>
