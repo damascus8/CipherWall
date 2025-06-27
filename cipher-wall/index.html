@@ -19,16 +19,8 @@
   <div class="container">
     <h1>Cipher Wall 🔐</h1>
 
-    <label>Enter your message:</label><br>
-    <textarea id="message" rows="4" cols="50"></textarea><br><br>
-
-    <label>Enter secret key:</label><br>
-    <input type="text" id="key"><br><br>
-
-
-
 <label>Choose encryption type:</label>
-<select id="encryptionType">
+<select id="encryptionType" onchange="handleInputRules()" >
   <option value="aes">AES</option>
   <option value="base64">Base64</option>
   <option value="rot13">ROT13</option>
@@ -43,6 +35,15 @@
 </select><br><br>
 
 
+
+    <label>Enter your message:</label><br>
+    <textarea id="message" rows="4" cols="50"></textarea><br><br>
+
+    <label for="key">Enter secret key: 
+  <span title="Key required depends on encryption type">❓</span>
+</label>
+    <input type="text" id="key"><br><br>
+
 <br><br>
 
     <button onclick="process()">Go</button>
@@ -54,23 +55,14 @@
 <button onclick="downloadResult()" class="download-btn">📥 Download Result</button>
 
 <!-- QR Button & Display -->
-<!-- <button id="generateQRBtn">📲 Convert to QR</button> -->
-<!-- <div id="qrcode" style="margin-top: 20px;"></div> -->
 
 <button id="generateQRBtn">📷 Convert to QR</button>
-<div id="qrOutput"></div>
 
-
-
-
-
+<div id="qrOutput" style="margin-top: 20px; margin-bottom: 30px;"></div>
 
 <div id="noteHistory"></div>
 
-
-  </div>
-
-  <!-- <script src="../js/script.js"></script> -->
+</div>
 <script src="/js/encryption.js"></script>
 <script src="/js/note-manager.js"></script>
 <script src="/js/downloader.js"></script>
@@ -91,12 +83,13 @@
 
 
 <!-- 🔗 Link -->
-<a href="ar-demo.html" style="font-size: 18px; margin-right: 20px;">Go to Dummy Page</a>
+<!-- <a href="ar-demo.html" style="font-size: 18px; margin-right: 20px;">Go to Dummy Page</a> -->
+<!-- <a href="mindar-demo.html" style="font-size: 18px; margin-right: 20px;">Go to mindar Page</a> -->
 
 <!-- 🔘 Button -->
-<button onclick="window.location.href='dummy.html'" style="padding: 10px 20px; font-size: 16px;">
-  Open Dummy Page
-</button>
+<!-- <button onclick="window.location.href='dummy.html'" style="padding: 10px 20px; font-size: 16px;"> -->
+  <!-- Open Dummy Page -->
+<!-- </button> -->
 
 </body>
 </html>

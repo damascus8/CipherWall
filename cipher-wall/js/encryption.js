@@ -43,13 +43,52 @@ function encryptDecrypt({ message, key, type, action }) {
       }
       break;
 
-    case "rot13":
+    // case "rot13":
+    //   result = message.replace(/[a-zA-Z]/g, char => {
+    //     const start = char <= "Z" ? 65 : 97;
+    //     const offset = (char.charCodeAt(0) - start + 13) % 26;
+    //     return String.fromCharCode(start + offset);
+    //   });
+case "rot13":
+  if (action === "encrypt") {
+    const rot = message.replace(/[a-zA-Z]/g, char => {
+      const start = char <= "Z" ? 65 : 97;
+      const offset = (char.charCodeAt(0) - start + 13) % 26;
+      return String.fromCharCode(start + offset);
+    });
+    result = key ? `::${key}::${rot}` : rot;
+  } else {
+    if (key && message.startsWith(`::${key}::`)) {
+      const clean = message.replace(`::${key}::`, "");
+      result = clean.replace(/[a-zA-Z]/g, char => {
+        const start = char <= "Z" ? 65 : 97;
+        const offset = (char.charCodeAt(0) - start + 13) % 26;
+        return String.fromCharCode(start + offset);
+      });
+    } else if (!key || !message.startsWith("::")) {
       result = message.replace(/[a-zA-Z]/g, char => {
         const start = char <= "Z" ? 65 : 97;
         const offset = (char.charCodeAt(0) - start + 13) % 26;
         return String.fromCharCode(start + offset);
       });
-      break;
+    } else {
+      result = "❌ Incorrect password!";
+    }
+  }
+  break;
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
     case "caesar":
       const shift = parseInt(key) || 0;
