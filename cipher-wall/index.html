@@ -14,8 +14,9 @@
   
 
 </head>
-<body>
 
+<body>
+<canvas id="matrixCanvas"></canvas>
   <div class="container">
     <h1>Cipher Wall 🔐</h1>
 
@@ -72,9 +73,9 @@
 
 
 
-  <small style="color: gray;text-align: center;align-items: center;">⚠️ Never share your encryption key publicly. For educational use only.</small>
-<div class="footer">
-  Made with ❤️ by <a href="https://www.linkedin.com/in/siddharth-shrivastav-a47480167" target="_blank">Siddharth Shrivastav</a>
+  <small style="color: white;text-align: center;align-items: center;">⚠️ Never share your encryption key publicly. For educational use only.</small>
+<div class="footer" style="color:white">
+  Made with ❤️ by <a href="https://www.linkedin.com/in/siddharth-shrivastav-a47480167" style="color: red;" target="_blank">Siddharth Shrivastav</a>
 </div>
 <!-- <a href="#" onclick="alert('Show manual content here')">❓ How to use</a> -->
 <p style="text-align:right;">
@@ -82,14 +83,40 @@
 </p>
 
 
-<!-- 🔗 Link -->
-<!-- <a href="ar-demo.html" style="font-size: 18px; margin-right: 20px;">Go to Dummy Page</a> -->
-<!-- <a href="mindar-demo.html" style="font-size: 18px; margin-right: 20px;">Go to mindar Page</a> -->
+<script>
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
 
-<!-- 🔘 Button -->
-<!-- <button onclick="window.location.href='dummy.html'" style="padding: 10px 20px; font-size: 16px;"> -->
-  <!-- Open Dummy Page -->
-<!-- </button> -->
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
+  const letters = 'アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+
+  const drops = Array.from({ length: columns }).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#0F0';
+    ctx.font = fontSize + 'px monospace';
+
+    drops.forEach((y, x) => {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, x * fontSize, y * fontSize);
+
+      drops[x] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
+    });
+  }
+
+  setInterval(drawMatrix, 33);
+
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
 </body>
 </html>
