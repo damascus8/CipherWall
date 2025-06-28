@@ -127,6 +127,13 @@ button:hover {
   background-color: #c62828; /* darker red on hover */
 }
 
+/* .note-entry {
+  background-color: #f4f4f4;
+  border-left: 4px solid #4caf50;
+  padding: 6px;
+  margin-top: 6px;
+  font-size: 14px;
+} */
 .note-entry {
   background: rgba(0, 230, 118, 0.1);  /* subtle green bg */
   color: #00e676;                      /* bright green text */
@@ -172,11 +179,15 @@ button:hover {
 }
 
 #qrOutput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 20px;
   margin-bottom: 30px;
   text-align: center;
-  
+  flex-direction: column;
 }
+
 /* ===== Matrix Background Canvas ===== */
 #matrixCanvas {
   position: fixed;
@@ -197,4 +208,42 @@ a {
 a:hover {
   color: #00ffee;
   text-decoration: underline;
+}
+
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.button-row button {
+  flex: 1 1 45%;
+  min-width: 120px;
+}
+
+
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.button-row button {
+  flex: 1 1 45%;
+  min-width: 120px;
+}
+
+
+#qrOutput canvas {
+  border: 2px solid #ffffff;
+  border-radius: 12px;
+  padding: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
