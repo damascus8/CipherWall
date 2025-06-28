@@ -167,26 +167,6 @@ button:hover {
 .footer a:hover {
   text-decoration: underline;
 }
-#qrSection {
-  margin-top: 20px;
-  text-align: center;
-}
-
-#qrcode canvas {
-  margin: 10px auto;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-#qrOutput {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  margin-bottom: 30px;
-  text-align: center;
-  flex-direction: column;
-}
 
 /* ===== Matrix Background Canvas ===== */
 #matrixCanvas {
@@ -241,9 +221,51 @@ a:hover {
 
 
 #qrOutput canvas {
-  border: 2px solid #ffffff;
+  background-color: #ffffff !important;  /* 🔥 FORCE white bg */
   border-radius: 12px;
   padding: 10px;
-  background-color: #ffffff;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  border: 2px solid #000;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+/* 
+#qrSection {
+  margin-top: 20px;
+  text-align: center;
+} */
+/* 
+#qrcode canvas {
+  margin: 10px auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+} */
+
+#qrOutput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+  flex-direction: column;
+}
+
+#qrOutputWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  background-color: #ffffff;  /* Pure white background */
+  border: 2px solid #000000;  /* Solid black border like Insta QR */
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  margin-top: 20px;
+}
+
+#qrOutput canvas {
+  background-color: #ffffff !important; /* ensures QR canvas itself has no transparency */
+  border-radius: 12px;
+}
+#qrSection, #qrOutputWrapper {
+  text-align: center;
+
 }
