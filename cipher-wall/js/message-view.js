@@ -50,6 +50,7 @@ function decryptMessage() {
     }
 
     revealText(decrypted);
+    
     document.getElementById("keyPrompt").classList.add("hidden");
     document.getElementById("status").textContent = "✅ Message decrypted";
   } catch (err) {

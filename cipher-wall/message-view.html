@@ -9,6 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
+   <div id="particles-js"></div>
   <div class="overlay">
     <div class="message-container">
       <h1>📨 Your Secret Message</h1>
@@ -24,7 +25,66 @@
     </div>
   </div>
 
+   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="/js/encryption.js"></script>
   <script src="/js/message-view.js"></script>
+
+<script>
+
+particlesJS("particles-js", {
+  particles: {
+    number: {
+      value: 60,
+      density: { enable: true, value_area: 900 }
+    },
+    color: { value: "#00ffcc" },
+    shape: {
+      type: "circle", // Try "edge", "triangle", "polygon"
+      stroke: { width: 0, color: "#000000" },
+    },
+    opacity: {
+      value: 0.4,
+      random: true,
+      anim: { enable: false }
+    },
+    size: {
+      value: 2.5,
+      random: true,
+      anim: { enable: false }
+    },
+    line_linked: {
+      enable: true,
+      distance: 130,
+      color: "#00ffcc",
+      opacity: 0.2,
+      width: 1
+    },
+    move: {
+      enable: true,
+      speed: 1.8,
+      direction: "none",
+      random: false,
+      straight: false,
+      out_mode: "out"
+    }
+  },
+  interactivity: {
+    detect_on: "canvas",
+    events: {
+      onhover: { enable: true, mode: "grab" },
+      onclick: { enable: false },
+      resize: true
+    },
+    modes: {
+      grab: {
+        distance: 140,
+        line_linked: { opacity: 0.4 }
+      }
+    }
+  },
+  retina_detect: true
+});
+
+  </script>
 </body>
 </html>
