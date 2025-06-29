@@ -24,3 +24,14 @@ document.getElementById("generateQRBtn").onclick = () => {
 
 
 });
+
+window.copyToClipboard = function () {
+  if (!window.latestQRLink) return alert("❌ No link to copy!");
+
+  navigator.clipboard.writeText(window.latestQRLink)
+    .then(() => alert("✅ Link copied to clipboard!"))
+    .catch(err => {
+      console.error("Clipboard copy failed:", err);
+      alert("❌ Failed to copy the link.");
+    });
+}
