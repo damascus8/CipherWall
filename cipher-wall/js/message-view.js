@@ -1,42 +1,43 @@
 let encrypted = false;
 let encryptedText = "";
-let encryptionType = "aes"; // default
+let encryptionType = "aes";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
-  const isEnc = params.get("enc") === "true";
-  encryptionType = params.get("type") || "aes";
+  const messageId = params.get("id");
 
   const display = document.getElementById("messageDisplay");
   const status = document.getElementById("status");
   const keyPrompt = document.getElementById("keyPrompt");
 
-  if (!id) {
+  if (!messageId) {
     status.textContent = "❌ Invalid or missing message ID.";
     return;
   }
 
-  // 🟢 Fetch message by ID from backend
   try {
-    const res = await fetch(`https://cipherwall-backend.onrender.com/api/message/${id}`);
+    const res = await fetch(`https://cipherwall-backend.onrender.com/api/fetch/${messageId}`);
     const data = await res.json();
-    const message = data.message;
 
-    if (!message) throw new Error("Empty message received");
+    if (!data || !data.payload) {
+      status.textContent = "❌ Message not found or corrupted.";
+      return;
+    }
 
-    if (isEnc) {
+    encryptionType = data.type || "aes";
+
+    if (data.encrypted) {
       encrypted = true;
-      encryptedText = message;
+      encryptedText = data.payload;
       keyPrompt.classList.remove("hidden");
-      status.textContent = `🔐 Encrypted message detected (${encryptionType.toUpperCase()})`;
+      status.textContent = `🔐 Encrypted using ${encryptionType.toUpperCase()} with key.`;
     } else {
       status.textContent = "✅ Plain message loaded";
-      revealText(message);
+      revealText(data.payload);
     }
   } catch (err) {
-    console.error("❌ Error fetching message:", err);
-    status.textContent = "❌ Failed to load message.";
+    console.error("❌ Error fetching message:", err.message);
+    status.textContent = "❌ Failed to fetch message from backend.";
   }
 });
 
@@ -60,7 +61,6 @@ function decryptMessage() {
     }
 
     revealText(decrypted);
-
     document.getElementById("keyPrompt").classList.add("hidden");
     document.getElementById("status").textContent = "✅ Message decrypted";
   } catch (err) {
