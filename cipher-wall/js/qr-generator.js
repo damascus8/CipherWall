@@ -4,32 +4,26 @@ async function generateQRCode(text, isEncrypted = false) {
 
   const type = document.getElementById("encryptionType").value;
 
-  // 🟢 STEP 1: Save message to backend
-  const payload = {
-    encrypted: isEncrypted,
-    message: text,
-    type: type
-  };
+  // Step 1: Save encrypted/plaintext message to backend
+  const res = await fetch("https://cipherwall-backend.onrender.com/api/save", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      encrypted: isEncrypted,
+      type: type,
+      payload: text
+    })
+  });
 
-  let messageId = "";
-  try {
-    const res = await fetch("https://cipherwall-backend.onrender.com/api/save", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+  const data = await res.json();
 
-    const data = await res.json();
-    messageId = data.messageId;
-    if (!messageId) throw new Error("No messageId received.");
-  } catch (err) {
-    alert("❌ Failed to save message to server.");
-    console.error(err);
-    return;
+  if (!data.id) {
+    console.error("❌ No messageId received.");
+    return alert("❌ Failed to save message to backend.");
   }
 
-  // 🟢 STEP 2: Generate QR with only ID and encryption type
-  const qrUrl = `${window.location.origin}/message-view.html?id=${messageId}&enc=${isEncrypted}&type=${type}`;
+  // Step 2: Create QR code with ID-based URL
+  const qrUrl = `${window.location.origin}/message-view.html?id=${data.id}`;
 
   new QRCode(qrOutput, {
     text: qrUrl,
@@ -40,13 +34,12 @@ async function generateQRCode(text, isEncrypted = false) {
     correctLevel: QRCode.CorrectLevel.H
   });
 
-  // Show shareable link
+  // Step 3: Show shareable link
   const qrLink = document.getElementById("qrLink");
   const qrLinkSection = document.getElementById("qrLinkSection");
   qrLink.href = qrUrl;
   qrLink.textContent = qrUrl;
   qrLinkSection.classList.remove("hidden");
 
-  // For copy function
   window.latestQRLink = qrUrl;
 }
