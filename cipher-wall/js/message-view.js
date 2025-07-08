@@ -2,11 +2,9 @@ let encrypted = false;
 let encryptedText = "";
 let encryptionType = "aes"; // default
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.info("📦 DOM Loaded");
-
+document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
-  const data = decodeURIComponent(params.get("data") || "");
+  const id = params.get("id");
   const isEnc = params.get("enc") === "true";
   encryptionType = params.get("type") || "aes";
 
@@ -14,19 +12,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const status = document.getElementById("status");
   const keyPrompt = document.getElementById("keyPrompt");
 
-  if (!data) {
-    status.textContent = "❌ Invalid or missing data.";
+  if (!id) {
+    status.textContent = "❌ Invalid or missing message ID.";
     return;
   }
 
-  if (isEnc) {
-    encrypted = true;
-    encryptedText = data;
-    keyPrompt.classList.remove("hidden");
-    status.textContent = `🔐 Encrypted message detected (${encryptionType.toUpperCase()})`;
-  } else {
-    status.textContent = "✅ Plain message loaded";
-    revealText(data);
+  // 🟢 Fetch message by ID from backend
+  try {
+    const res = await fetch(`https://cipherwall-backend.onrender.com/api/message/${id}`);
+    const data = await res.json();
+    const message = data.message;
+
+    if (!message) throw new Error("Empty message received");
+
+    if (isEnc) {
+      encrypted = true;
+      encryptedText = message;
+      keyPrompt.classList.remove("hidden");
+      status.textContent = `🔐 Encrypted message detected (${encryptionType.toUpperCase()})`;
+    } else {
+      status.textContent = "✅ Plain message loaded";
+      revealText(message);
+    }
+  } catch (err) {
+    console.error("❌ Error fetching message:", err);
+    status.textContent = "❌ Failed to load message.";
   }
 });
 
@@ -50,7 +60,7 @@ function decryptMessage() {
     }
 
     revealText(decrypted);
-    
+
     document.getElementById("keyPrompt").classList.add("hidden");
     document.getElementById("status").textContent = "✅ Message decrypted";
   } catch (err) {
