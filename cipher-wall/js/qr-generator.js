@@ -13,7 +13,7 @@ async function generateQRCode(text, isEncrypted = false) {
 
   let messageId = "";
   try {
-    const res = await fetch("https://cipherwall-backend.onrender.com/api/saveMessage", {
+    const res = await fetch("https://cipherwall-backend.onrender.com/api/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
