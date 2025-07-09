@@ -1,10 +1,11 @@
-let encrypted = false;
-let encryptedText = "";
 let encryptionType = "aes";
+let messageId = null;
+let isEncrypted = false;
 
+// DOM Ready
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
-  const messageId = params.get("id");
+  messageId = params.get("id");
 
   const display = document.getElementById("messageDisplay");
   const status = document.getElementById("status");
@@ -20,52 +21,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await res.json();
 
     if (!data || !data.payload) {
-      status.textContent = "❌ Message not found or corrupted.";
+      status.textContent = "❌ Message not found or expired.";
       return;
     }
 
     encryptionType = data.type || "aes";
+    isEncrypted = data.encrypted;
 
-    if (data.encrypted) {
-      encrypted = true;
-      encryptedText = data.payload;
-      keyPrompt.classList.remove("hidden");
+    if (isEncrypted) {
       status.textContent = `🔐 Encrypted using ${encryptionType.toUpperCase()} with key.`;
+      document.getElementById("keyPrompt").classList.remove("hidden");
     } else {
       status.textContent = "✅ Plain message loaded";
       revealText(data.payload);
     }
   } catch (err) {
-    console.error("❌ Error fetching message:", err.message);
-    status.textContent = "❌ Failed to fetch message from backend.";
+    console.error("❌ Fetch error:", err.message);
+    status.textContent = "❌ Failed to fetch message.";
   }
 });
 
-function decryptMessage() {
+// Decrypt with key (Phase 4 with hashing)
+async function decryptMessage() {
   const key = document.getElementById("keyInput").value.trim();
-
-  if (["aes", "caesar"].includes(encryptionType) && !key) {
-    return alert("⚠️ Key is required to decrypt.");
-  }
+  if (!key) return alert("⚠️ Please enter the decryption key.");
 
   try {
-    const decrypted = encryptDecrypt({
-      message: encryptedText,
-      key,
-      type: encryptionType,
-      action: "decrypt"
+    const res = await fetch("https://cipherwall-backend.onrender.com/api/decrypt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: messageId,
+        key
+      })
     });
 
-    if (!decrypted || decrypted.startsWith("❌")) {
-      throw new Error("Decryption failed");
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.error || "Invalid key.");
     }
 
-    revealText(decrypted);
-    document.getElementById("keyPrompt").classList.add("hidden");
     document.getElementById("status").textContent = "✅ Message decrypted";
+    document.getElementById("keyPrompt").classList.add("hidden");
+    revealText(data.message);
   } catch (err) {
     console.error("❌ Decryption error:", err.message);
-    alert("❌ Incorrect key or corrupted data.");
+    alert("❌ Incorrect key or expired message.");
   }
 }
 
