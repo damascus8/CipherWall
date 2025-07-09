@@ -1,8 +1,8 @@
+let encrypted = false;
+let encryptedText = "";
 let encryptionType = "aes";
-let messageId = null;
-let isEncrypted = false;
+let messageId = "";
 
-// DOM Ready
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   messageId = params.get("id");
@@ -21,53 +21,57 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await res.json();
 
     if (!data || !data.payload) {
-      status.textContent = "❌ Message not found or expired.";
+      status.textContent = "❌ Message not found or corrupted.";
       return;
     }
 
     encryptionType = data.type || "aes";
-    isEncrypted = data.encrypted;
 
-    if (isEncrypted) {
+    if (data.encrypted) {
+      encrypted = true;
+      encryptedText = data.payload;
+      keyPrompt.classList.remove("hidden");
       status.textContent = `🔐 Encrypted using ${encryptionType.toUpperCase()} with key.`;
-      document.getElementById("keyPrompt").classList.remove("hidden");
     } else {
       status.textContent = "✅ Plain message loaded";
       revealText(data.payload);
     }
   } catch (err) {
-    console.error("❌ Fetch error:", err.message);
-    status.textContent = "❌ Failed to fetch message.";
+    console.error("❌ Error fetching message:", err.message);
+    status.textContent = "❌ Failed to fetch message from backend.";
   }
 });
 
-// Decrypt with key (Phase 4 with hashing)
 async function decryptMessage() {
   const key = document.getElementById("keyInput").value.trim();
-  if (!key) return alert("⚠️ Please enter the decryption key.");
+
+  if (["aes", "caesar"].includes(encryptionType) && !key) {
+    return alert("⚠️ Key is required to decrypt.");
+  }
 
   try {
     const res = await fetch("https://cipherwall-backend.onrender.com/api/decrypt", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        id: messageId,
-        key
+        payload: encryptedText,
+        key,
+        type: encryptionType
       })
     });
 
     const data = await res.json();
 
-    if (!res.ok || !data.success) {
-      throw new Error(data.error || "Invalid key.");
+    if (!data || data.error || !data.decrypted) {
+      throw new Error(data.error || "Failed to decrypt");
     }
 
-    document.getElementById("status").textContent = "✅ Message decrypted";
+    revealText(data.decrypted);
     document.getElementById("keyPrompt").classList.add("hidden");
-    revealText(data.message);
+    document.getElementById("status").textContent = "✅ Message decrypted";
   } catch (err) {
     console.error("❌ Decryption error:", err.message);
-    alert("❌ Incorrect key or expired message.");
+    alert("❌ Incorrect key or corrupted data.");
   }
 }
 
