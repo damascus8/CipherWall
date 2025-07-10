@@ -1,6 +1,4 @@
-// qr-generator.js
 
-// Get DOM elements
 const generateQRBtn = document.getElementById("generateQRBtn");
 const qrOutput = document.getElementById("qrOutput");
 const qrLinkSection = document.getElementById("qrLinkSection");
