@@ -1,4 +1,12 @@
 
+function generateQRCode(text, isEncrypted = false) {
+  const qrOutput = document.getElementById("qrOutput");
+  qrOutput.innerHTML = "";
+
+  const type = document.getElementById("encryptionType").value;
+  const encodedText = encodeURIComponent(text);
+  const qrUrl = `${window.location.origin}/message-view.html?data=${encodedText}&enc=${isEncrypted}&type=${type}`;
+
 const generateQRBtn = document.getElementById("generateQRBtn");
 const qrOutput = document.getElementById("qrOutput");
 const qrLinkSection = document.getElementById("qrLinkSection");
@@ -55,4 +63,15 @@ function showQRCode(url) {
     colorLight: "#ffffff",
     correctLevel: QRCode.CorrectLevel.H,
   });
+
+  // Show shareable link
+  const qrLink = document.getElementById("qrLink");
+  const qrLinkSection = document.getElementById("qrLinkSection");
+  qrLink.href = qrUrl;
+  qrLink.textContent = qrUrl; 
+  qrLinkSection.classList.remove("hidden");
+
+  // For copy function
+  window.latestQRLink = qrUrl;
+}
 }
