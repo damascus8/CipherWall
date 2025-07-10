@@ -1,29 +1,33 @@
-async function generateQRCode(text, isEncrypted = false) {
+// function generateQRCode(text, isEncrypted = false) {
+//   const qrOutput = document.getElementById("qrOutput");
+//   qrOutput.innerHTML = "";
+
+//   const type = document.getElementById("encryptionType").value;
+//   const encodedText = encodeURIComponent(text);
+//   const qrUrl = `${window.location.origin}/message-view.html?data=${encodedText}&enc=${isEncrypted}&type=${type}`;
+
+//   console.info("🔐 QR URL:", qrUrl);
+
+//   const qr = new QRCode(qrOutput, {
+//   text: qrUrl,
+//   width: 200,
+//   height: 200,
+//   colorDark: "#000000",     // black dots
+//   colorLight: "#ffffff",    // white background ✅
+//   correctLevel: QRCode.CorrectLevel.H
+  
+// });
+
+
+// }
+
+function generateQRCode(text, isEncrypted = false) {
   const qrOutput = document.getElementById("qrOutput");
   qrOutput.innerHTML = "";
 
   const type = document.getElementById("encryptionType").value;
-
-  // Step 1: Save encrypted/plaintext message to backend
-  const res = await fetch("https://cipherwall-backend.onrender.com/api/save", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      encrypted: isEncrypted,
-      type: type,
-      payload: text
-    })
-  });
-
-  const data = await res.json();
-
-  if (!data.id) {
-    console.error("❌ No messageId received.");
-    return alert("❌ Failed to save message to backend.");
-  }
-
-  // Step 2: Create QR code with ID-based URL
-  const qrUrl = `${window.location.origin}/message-view.html?id=${data.id}`;
+  const encodedText = encodeURIComponent(text);
+  const qrUrl = `${window.location.origin}/message-view.html?data=${encodedText}&enc=${isEncrypted}&type=${type}`;
 
   new QRCode(qrOutput, {
     text: qrUrl,
@@ -34,12 +38,13 @@ async function generateQRCode(text, isEncrypted = false) {
     correctLevel: QRCode.CorrectLevel.H
   });
 
-  // Step 3: Show shareable link
+  // Show shareable link
   const qrLink = document.getElementById("qrLink");
   const qrLinkSection = document.getElementById("qrLinkSection");
   qrLink.href = qrUrl;
-  qrLink.textContent = qrUrl;
+  qrLink.textContent = qrUrl; 
   qrLinkSection.classList.remove("hidden");
 
+  // For copy function
   window.latestQRLink = qrUrl;
 }
