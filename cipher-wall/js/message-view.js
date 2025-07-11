@@ -35,10 +35,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 🔁 Change Start: Handle local decryption
   else if (enc && rawData && localTypes.includes(type)) {
+    console.log("ss"+localTypes.includes(type))
     const encryptedText = decodeURIComponent(rawData);
-
+    console.log("sid"+encryptedText)
     try {
       const decrypted = decryptLocal(encryptedText, type);
+      console.log("decrypted"+decrypted)
       revealText(decrypted);
       status.textContent = `✅ Message decrypted using ${type.toUpperCase()} (Local)`;
     } catch (err) {
@@ -51,6 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 🔁 Change Start: Plaintext fallback
   else {
     const plain = decodeURIComponent(rawData || "");
+    console.log(plain)
     if (!plain) {
       status.textContent = "❌ Failed to read plain message.";
     } else {
@@ -110,6 +113,7 @@ function revealText(text) {
 
 // 🔁 Change Start: Add local decryption handler
 function decryptLocal(text, type) {
+  console.log("decrypting local")
   switch (type) {
     case "base64":
       return atob(text);
