@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const enc = params.get("enc") === "true";
   const type = params.get("type") || "aes";
   const rawData = params.get("data");
-
+  
   const status = document.getElementById("status");
   const keyPrompt = document.getElementById("keyPrompt");
 
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // 🔁 Change End
 
-  console.log("params"+params);
+  console.log("params"+params.toString());
   console.log("rawData"+rawData);
   console.log("XX "+localTypes.includes(type));
   if (!messageId && !rawData) {
@@ -29,13 +29,48 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // 🔁 Change Start: Handle server-side decryption
-  if (enc && messageId && !localTypes.includes(type)) {
-    status.textContent = `🔐 Encrypted message detected (${type.toUpperCase()})`;
-    keyPrompt.classList.remove("hidden");
-    window.currentMessageId = messageId;
-    window.currentEncType = type;
+  // // 🔁 Change Start: Handle server-side decryption
+  // if (enc && messageId && !localTypes.includes(type)) {
+  //   status.textContent = `🔐 Encrypted message detected (${type.toUpperCase()})`;
+  //   keyPrompt.classList.remove("hidden");
+  //   window.currentMessageId = messageId;
+  //   window.currentEncType = type;
+  // }
+
+  if (enc && messageId) {
+  try {
+    const res = await fetch(`https://cipherwall-backend.onrender.com/api/message/${messageId}`);
+    const data = await res.json();
+    if (!res.ok || !data.payload) throw new Error("Message not found");
+
+    if (["aes", "caesar"].includes(type)) {
+      // 🔐 Show key prompt for AES/Caesar
+      status.textContent = `🔐 Encrypted message detected (${type.toUpperCase()})`;
+      keyPrompt.classList.remove("hidden");
+      window.currentMessageId = messageId;
+      window.currentEncType = type;
+    } else {
+      // 🔓 Decrypt locally
+      const decrypted = decryptLocal(data.payload, type);
+      revealText(decrypted);
+      status.textContent = `✅ Decrypted locally using ${type.toUpperCase()}`;
+    }
+
+  } catch (err) {
+    console.error("❌ Failed to load/decrypt message:", err);
+    status.textContent = "❌ Error fetching or decrypting the message.";
   }
+}
+
+
+
+
+
+
+
+
+
+
   // 🔁 Change End
 
   // 🔁 Change Start: Handle local decryption
