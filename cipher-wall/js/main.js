@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
+/*
 document.getElementById("generateQRBtn").onclick = () => {
   const result = document.getElementById("result").value;
   const action = document.getElementById("action").value;
@@ -24,6 +24,9 @@ document.getElementById("generateQRBtn").onclick = () => {
 
 
 });
+
+
+ */
 
 window.copyToClipboard = function () {
   if (!window.latestQRLink) return alert("❌ No link to copy!");
