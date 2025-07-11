@@ -5,9 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("button[onclick='clearScreen()']").onclick = clearScreen;
   document.querySelector("button.download-btn").onclick = downloadResult;
 
-
-
-
+/*
 document.getElementById("generateQRBtn").onclick = () => {
   const result = document.getElementById("result").value;
   const action = document.getElementById("action").value;
@@ -21,6 +19,9 @@ document.getElementById("generateQRBtn").onclick = () => {
   const isEncrypted = action === "encrypt" && ["aes", "caesar", "rot13", "morse", "base64"].includes(type);
   generateQRCode(result, isEncrypted, type); // 🔁 Updated
 };
+
+*/
+
 
 
 });
