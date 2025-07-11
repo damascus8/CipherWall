@@ -1,5 +1,6 @@
 
 function generateQRCode(text, isEncrypted = false) {
+  console.info("generateQRCode called via btn 1");
   const qrOutput = document.getElementById("qrOutput");
   qrOutput.innerHTML = "";
 
