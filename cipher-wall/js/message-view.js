@@ -23,7 +23,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   console.log("params"+params.toString());
   console.log("rawData"+rawData);
-  console.log("XX "+localTypes.includes(type));
+  // console.log("max "+params.get("payload"));
+  console.log("XX local type"+localTypes.includes(type));
   if (!messageId && !rawData) {
     status.textContent = "❌ Invalid or missing message reference.";
     return;
@@ -37,40 +38,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.currentEncType = type;
   }
 
-  /*
-  if (enc && messageId) {
-  try {
-    const res = await fetch(`https://cipherwall-backend.onrender.com/api/message/${messageId}`);
-    const data = await res.json();
-    if (!res.ok || !data.payload) throw new Error("Message not found");
-
-    if (["aes", "caesar"].includes(type)) {
-      // 🔐 Show key prompt for AES/Caesar
-      status.textContent = `🔐 Encrypted message detected (${type.toUpperCase()})`;
-      keyPrompt.classList.remove("hidden");
-      window.currentMessageId = messageId;
-      window.currentEncType = type;
-    } else {
-      // 🔓 Decrypt locally
-      const decrypted = decryptLocal(data.payload, type);
-      revealText(decrypted);
-      status.textContent = `✅ Decrypted locally using ${type.toUpperCase()}`;
-    }
-
-  } catch (err) {
-    console.error("❌ Failed to load/decrypt message:", err);
-    status.textContent = "❌ Error fetching or decrypting the message.";
-  }
-}
-
-*/
-
-
-
-
-
-
-
 
   // 🔁 Change End
 
@@ -78,21 +45,46 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   
 
-  else if (enc && rawData && localTypes.includes(type)) {
-    console.log("ss"+localTypes.includes(type))
-     encryptedText = decodeURIComponent(rawData);
-    console.log("sid"+encryptedText)
-    try {
-      const decrypted = decryptLocal(encryptedText, type);
-      console.log("decrypted"+decrypted)
-      revealText(decrypted);
-      status.textContent = `✅ Message decrypted using ${type.toUpperCase()} (Local)`;
-    } catch (err) {
-      console.error("❌ Local decryption error:", err.message);
-      status.textContent = "❌ Failed to decrypt message.";
-    }
+  // else if (enc && rawData && localTypes.includes(type)) {
+  //   console.log("ss"+localTypes.includes(type))
+  //    encryptedText = decodeURIComponent(rawData);
+  //   console.log("sid"+encryptedText)
+  //   try {
+  //     const decrypted = decryptLocal(encryptedText, type);
+  //     console.log("decrypted"+decrypted)
+  //     revealText(decrypted);
+  //     status.textContent = `✅ Message decrypted using ${type.toUpperCase()} (Local)`;
+  //   } catch (err) {
+  //     console.error("❌ Local decryption error:", err.message);
+  //     status.textContent = "❌ Failed to decrypt message.";
+  //   }
+  // }
+  // // 🔁 Change End
+
+
+
+// 🔁 Change Start: Handle local decryption from DB payload
+else if (enc && messageId && localTypes.includes(type)) {
+  console.log("in local test")
+  try {
+    const res = await fetch(`https://cipherwall-backend.onrender.com/api/message/${messageId}`);
+    const data = await res.json();
+    if (!res.ok || !data.payload) throw new Error("Message not found");
+
+    const decrypted = decryptLocal(data.payload, type);
+    revealText(decrypted);
+    status.textContent = `✅ Decrypted using ${type.toUpperCase()} (Local from DB)`;
+  } catch (err) {
+    console.error("❌ Failed local decrypt:", err.message);
+    status.textContent = "❌ Failed to decrypt message.";
   }
-  // 🔁 Change End
+}
+// 🔁 Change End
+
+
+
+
+
 
   // 🔁 Change Start: Plaintext fallback
   else {
