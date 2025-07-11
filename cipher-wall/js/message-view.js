@@ -1,11 +1,13 @@
 let encrypted = false;
 let encryptedText = "";
-let encryptionType = "aes"; // default fallback
+// let encryptionType = "aes"; // default fallback
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.info("📦 DOM loaded: Decryption phase started");
 
   const params = new URLSearchParams(window.location.search);
+
+  console.info("params::"+params);
   const messageId = params.get("id");
   const enc = params.get("enc") === "true";
   const type = params.get("type") || "aes";
@@ -23,6 +25,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // 🌐 Server decryption (AES or Caesar)
+  console.log("enc :: "+enc)
+  console.log("messageId :: "+messageId)
+  console.log("type :: "+type)
+
+
   if (enc && messageId && !localTypes.includes(type)) {
     status.textContent = `🔐 Encrypted message detected (${type.toUpperCase()})`;
     keyPrompt.classList.remove("hidden");
