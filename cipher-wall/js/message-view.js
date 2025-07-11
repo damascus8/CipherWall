@@ -1,64 +1,56 @@
 let encrypted = false;
 let encryptedText = "";
 // let encryptionType = "aes"; // default fallback
-
 document.addEventListener("DOMContentLoaded", async () => {
   console.info("📦 DOM loaded: Decryption phase started");
 
   const params = new URLSearchParams(window.location.search);
-
-  console.info("params::"+params);
   const messageId = params.get("id");
   const enc = params.get("enc") === "true";
   const type = params.get("type") || "aes";
-  const rawData = params.get("data");
 
   const status = document.getElementById("status");
   const keyPrompt = document.getElementById("keyPrompt");
+  const display = document.getElementById("messageDisplay");
 
-  // 🆕 Local decryption types
-  const localTypes = ["base64", "rot13", "morse"];
-
-  if (!messageId && !rawData) {
+  if (!messageId) {
     status.textContent = "❌ Invalid or missing message reference.";
     return;
   }
 
-  // 🌐 Server decryption (AES or Caesar)
-  console.log("enc :: "+enc)
-  console.log("messageId :: "+messageId)
-  console.log("type :: "+type)
+  try {
+    const res = await fetch(`https://cipherwall-backend.onrender.com/api/message/${messageId}`);
+    const { payload, type: fetchedType, encrypted } = await res.json();
 
-
-  if (enc && messageId && !localTypes.includes(type)) {
-    status.textContent = `🔐 Encrypted message detected (${type.toUpperCase()})`;
-    keyPrompt.classList.remove("hidden");
-
-    // 🧠 Store for decrypt button
+    window.currentEncType = fetchedType || type;
+    window.currentPayload = payload;
     window.currentMessageId = messageId;
-    window.currentEncType = type;
-  // 🧠 Local decryption via data param
-  } else if (enc && rawData && localTypes.includes(type)) {
-    const encryptedText = decodeURIComponent(rawData);
 
-    try {
-      const decrypted = decryptLocal(encryptedText, type); // 🔓 See function below
-      revealText(decrypted);
-      status.textContent = `✅ Message decrypted using ${type.toUpperCase()} (Local)`;
-    } catch (err) {
-      console.error("❌ Local decryption error:", err.message);
-      status.textContent = "❌ Failed to decrypt message.";
+    if (!payload) {
+      status.textContent = "❌ No payload found.";
+      return;
     }
 
-  // 🔓 Plain message
-  } else {
-    const plain = decodeURIComponent(rawData || "");
-    if (!plain) {
-      status.textContent = "❌ Failed to read plain message.";
-    } else {
+    if (!encrypted) {
+      // ✅ Plain message, directly display
       status.textContent = "✅ Plain message loaded";
-      revealText(plain);
+      revealText(payload);
+      return;
     }
+
+    if (["aes", "caesar"].includes(fetchedType)) {
+      // 🔐 Server-decrypted types
+      status.textContent = `🔐 Encrypted message detected (${fetchedType.toUpperCase()})`;
+      keyPrompt.classList.remove("hidden");
+    } else {
+      // 🧠 Local-decrypted types
+      status.textContent = `🔐 Encrypted (${fetchedType}) - decrypting locally...`;
+      const decrypted = decryptLocally(fetchedType, payload);
+      revealText(decrypted);
+    }
+  } catch (err) {
+    console.error("❌ Failed to load message:", err.message);
+    status.textContent = "❌ Failed to load or decrypt message.";
   }
 });
 
@@ -81,9 +73,7 @@ async function decryptMessage() {
 
     const data = await res.json();
 
-    if (!res.ok) {
-      throw new Error(data.error || "Unknown error");
-    }
+    if (!res.ok) throw new Error(data.error || "Unknown error");
 
     document.getElementById("keyPrompt").classList.add("hidden");
     document.getElementById("status").textContent = "✅ Message decrypted";
@@ -91,7 +81,30 @@ async function decryptMessage() {
   } catch (err) {
     console.error("❌ Decryption failed:", err.message);
     alert("❌ Decryption failed: " + err.message);
-    document.getElementById("status").textContent = "❌ Decryption failed.";
+  }
+}
+
+function decryptLocally(type, payload) {
+  try {
+    switch (type) {
+      case "rot13":
+        return payload.replace(/[A-Za-z]/g, c =>
+          String.fromCharCode(
+            (c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13)
+              ? c
+              : c - 26
+          )
+        );
+      case "base64":
+        return atob(payload);
+      case "morse":
+        return morseToText(payload);
+      default:
+        return "❌ Unsupported encryption type.";
+    }
+  } catch (err) {
+    console.error("❌ Local decryption error:", err);
+    return "❌ Failed to decrypt locally.";
   }
 }
 
@@ -111,19 +124,19 @@ function revealText(text) {
   }, 30);
 }
 
-// 🆕 Local decryption for base64, rot13, morse
-function decryptLocal(text, type) {
-  switch (type) {
-    case "base64":
-      return atob(text);
-    case "rot13":
-      return text.replace(/[A-Za-z]/g, (c) => {
-        const base = c <= "Z" ? 65 : 97;
-        return String.fromCharCode((c.charCodeAt(0) - base + 13) % 26 + base);
-      });
-    case "morse":
-      return decryptMorse(text); // 💡 This must be defined in encryption.js
-    default:
-      throw new Error("Unsupported encryption type for local decryption.");
-  }
+// Add your existing Morse logic here
+function morseToText(morseCode) {
+  const morseMap = {
+    ".-": "A", "-...": "B", "-.-.": "C", "-..": "D",
+    ".": "E", "..-.": "F", "--.": "G", "....": "H",
+    "..": "I", ".---": "J", "-.-": "K", ".-..": "L",
+    "--": "M", "-.": "N", "---": "O", ".--.": "P",
+    "--.-": "Q", ".-.": "R", "...": "S", "-": "T",
+    "..-": "U", "...-": "V", ".--": "W", "-..-": "X",
+    "-.--": "Y", "--..": "Z", "-----": "0", ".----": "1",
+    "..---": "2", "...--": "3", "....-": "4", ".....": "5",
+    "-....": "6", "--...": "7", "---..": "8", "----.": "9"
+  };
+
+  return morseCode.split(" ").map(code => morseMap[code] || " ").join("");
 }
