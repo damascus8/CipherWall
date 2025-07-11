@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 🔁 Change Start: Plaintext fallback
   else {
     const plain = decodeURIComponent(rawData || "");
-    console.log(plain)
+    console.log("plain"+plain)
     if (!plain) {
       status.textContent = "❌ Failed to read plain message.";
     } else {
@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function decryptMessage() {
+  console.log("decryptMessage function")
   const key = document.getElementById("keyInput").value.trim();
   const id = window.currentMessageId;
   const type = window.currentEncType;
