@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 🔁 Change Start: Handle local decryption
   else if (enc && rawData && localTypes.includes(type)) {
     console.log("ss"+localTypes.includes(type))
-    const encryptedText = decodeURIComponent(rawData);
+     encryptedText = decodeURIComponent(rawData);
     console.log("sid"+encryptedText)
     try {
       const decrypted = decryptLocal(encryptedText, type);
