@@ -113,15 +113,8 @@ case "rot13":
   return result;
 }
 
-function decryptMorse(text)
+function decryptMorse(morseCode)
 {
-        try {
-          result = message.split(' ').map(m => {
-            if (!reverseMorse[m]) throw new Error();
-            return reverseMorse[m];
-          }).join('');
-        } catch {
-          result = "❌ Invalid Morse Code input!";
-        }
+        return morseCode.trim().split(" ").map(symbol => morseMap[symbol] || "").join("");
  
 };
