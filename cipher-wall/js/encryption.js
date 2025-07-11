@@ -14,6 +14,10 @@ const reverseMorse = Object.fromEntries(Object.entries(morseMap).map(([k, v]) =>
 
 function encryptDecrypt({ message, key, type, action }) {
   let result = "";
+  console.log(message);
+  console.log(key);
+  console.log(type);
+  console.log(action);
 
   if (!message || (type === "aes" && !key)) {
     alert("Please enter message" + (type === "aes" ? " and key!" : "!"));
@@ -108,3 +112,16 @@ case "rot13":
 
   return result;
 }
+
+function decryptMorse(text)
+{
+        try {
+          result = message.split(' ').map(m => {
+            if (!reverseMorse[m]) throw new Error();
+            return reverseMorse[m];
+          }).join('');
+        } catch {
+          result = "❌ Invalid Morse Code input!";
+        }
+ 
+};
