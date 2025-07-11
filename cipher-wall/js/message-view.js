@@ -29,14 +29,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // // 🔁 Change Start: Handle server-side decryption
-  // if (enc && messageId && !localTypes.includes(type)) {
-  //   status.textContent = `🔐 Encrypted message detected (${type.toUpperCase()})`;
-  //   keyPrompt.classList.remove("hidden");
-  //   window.currentMessageId = messageId;
-  //   window.currentEncType = type;
-  // }
+  // 🔁 Change Start: Handle server-side decryption
+  if (enc && messageId && !localTypes.includes(type)) {
+    status.textContent = `🔐 Encrypted message detected (${type.toUpperCase()})`;
+    keyPrompt.classList.remove("hidden");
+    window.currentMessageId = messageId;
+    window.currentEncType = type;
+  }
 
+  /*
   if (enc && messageId) {
   try {
     const res = await fetch(`https://cipherwall-backend.onrender.com/api/message/${messageId}`);
@@ -62,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 }
 
-
+*/
 
 
 
