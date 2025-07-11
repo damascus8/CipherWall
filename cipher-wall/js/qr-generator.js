@@ -8,7 +8,7 @@ function generateQRCode(text, isEncrypted = false) {
   const qrUrl = `${window.location.origin}/message-view.html?data=${encodedText}&enc=${isEncrypted}&type=${type}`;
 
 const generateQRBtn = document.getElementById("generateQRBtn");
-const qrOutput = document.getElementById("qrOutput");
+// const qrOutput = document.getElementById("qrOutput");
 const qrLinkSection = document.getElementById("qrLinkSection");
 const qrLink = document.getElementById("qrLink");
 
