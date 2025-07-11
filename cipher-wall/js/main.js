@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("button[onclick='clearScreen()']").onclick = clearScreen;
   document.querySelector("button.download-btn").onclick = downloadResult;
 
-
 document.getElementById("generateQRBtn").onclick = () => {
   console.info("generateQRBtn called via btn 2");
   const result = document.getElementById("result").value;
@@ -26,6 +25,9 @@ document.getElementById("generateQRBtn").onclick = () => {
 
 
 });
+
+
+
 
 window.copyToClipboard = function () {
   if (!window.latestQRLink) return alert("❌ No link to copy!");
