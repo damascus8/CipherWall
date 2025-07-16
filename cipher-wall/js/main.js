@@ -1,11 +1,13 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   handleInputRules();
+  console.info("JEST 1");
   document.querySelector("button[onclick='process()']").onclick = process;
   document.querySelector("button[onclick='clearScreen()']").onclick = clearScreen;
   document.querySelector("button.download-btn").onclick = downloadResult;
-/*
+
 document.getElementById("generateQRBtn").onclick = () => {
+  console.info("generateQRBtn called via btn 2");
   const result = document.getElementById("result").value;
   const action = document.getElementById("action").value;
   const type = document.getElementById("encryptionType").value;
@@ -19,14 +21,14 @@ document.getElementById("generateQRBtn").onclick = () => {
   generateQRCode(result, isEncrypted, type); // 🔁 Updated
 };
 
-*/
+
 
 
 
 });
 
 
- */
+
 
 window.copyToClipboard = function () {
   if (!window.latestQRLink) return alert("❌ No link to copy!");

@@ -14,6 +14,10 @@ const reverseMorse = Object.fromEntries(Object.entries(morseMap).map(([k, v]) =>
 
 function encryptDecrypt({ message, key, type, action }) {
   let result = "";
+  console.log(message);
+  console.log(key);
+  console.log(type);
+  console.log(action);
 
   if (!message || (type === "aes" && !key)) {
     alert("Please enter message" + (type === "aes" ? " and key!" : "!"));
@@ -76,18 +80,6 @@ case "rot13":
     }
   }
   break;
-
-
-
-
-
-
-
-
-
-
-
-
   
 
     case "caesar":
@@ -119,4 +111,34 @@ case "rot13":
   }
 
   return result;
+}
+
+
+function decryptMorse(morseCode) {
+  console.log("🔍 Decrypting Morse:", morseCode);
+  
+  const morseMap = {
+    ".-": "A", "-...": "B", "-.-.": "C",
+    "-..": "D", ".": "E", "..-.": "F",
+    "--.": "G", "....": "H", "..": "I",
+    ".---": "J", "-.-": "K", ".-..": "L",
+    "--": "M", "-.": "N", "---": "O",
+    ".--.": "P", "--.-": "Q", ".-.": "R",
+    "...": "S", "-": "T", "..-": "U",
+    "...-": "V", ".--": "W", "-..-": "X",
+    "-.--": "Y", "--..": "Z",
+    "-----": "0", ".----": "1", "..---": "2",
+    "...--": "3", "....-": "4", ".....": "5",
+    "-....": "6", "--...": "7", "---..": "8",
+    "----.": "9",
+    "/": " ",  // 🧠 space between words
+  };
+
+  if (!morseCode || typeof morseCode !== "string") return "";
+
+  return morseCode
+    .trim()
+    .split(" ")
+    .map(symbol => morseMap[symbol] || "?") // Use '?' as fallback to detect invalid symbols
+    .join("");
 }
