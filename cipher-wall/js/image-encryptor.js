@@ -1,58 +1,66 @@
-
-// 🔐 Upload & Encrypt
-async function uploadAndEncrypt() {
+function encryptAndUploadImage() {
   const fileInput = document.getElementById("imageInput");
-  const key = document.getElementById("encryptKey").value.trim();
-  const result = document.getElementById("uploadResult");
+  const key = document.getElementById("imageKey").value.trim();
 
-  if (!fileInput.files.length || !key) {
-    return alert("Please choose an image and enter a key.");
+  if (!fileInput.files[0]) {
+    alert("Please select an image.");
+    return;
   }
 
-  const formData = new FormData();
-  formData.append("image", fileInput.files[0]);
-  formData.append("key", key);
+  const reader = new FileReader();
+  reader.onload = async function () {
+    const imageData = reader.result;
 
-  try {
-    const res = await fetch("https://cipherwall-backend.onrender.com/api/upload-image", {
+    const res = await fetch("https://cipherwall-backend.onrender.com/api/image/upload", {
       method: "POST",
-      body: formData
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ imageData, key })
     });
 
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
+    if (res.ok) {
+      alert("✅ Image uploaded successfully!");
 
-    result.textContent = `✅ Encrypted. Image ID: ${data.id}`;
-  } catch (err) {
-    result.textContent = "❌ " + err.message;
-  }
+      // Display preview
+      const preview = document.getElementById("imagePreview");
+      preview.src = imageData;
+      preview.hidden = false;
+
+      // Generate QR
+      const url = `https://cipherwall.vercel.app/image-view.html?id=${data.id}`;
+      const qrContainer = document.getElementById("qrContainer");
+      qrContainer.innerHTML = "";
+      new QRCode(qrContainer, { text: url, width: 200, height: 200 });
+    } else {
+      alert("❌ Upload failed: " + data.error);
+    }
+  };
+
+  reader.readAsDataURL(fileInput.files[0]);
 }
 
-// 🔓 Decrypt & Display Image
-async function decryptAndShowImage() {
-  const id = document.getElementById("imageId").value.trim();
+async function decryptImage() {
+  const id = document.getElementById("decryptId").value.trim();
   const key = document.getElementById("decryptKey").value.trim();
-  const container = document.getElementById("decryptedImageArea");
 
-  if (!id || !key) return alert("Enter both ID and key.");
+  if (!id) {
+    alert("❗ Image ID required");
+    return;
+  }
 
-  try {
-    const res = await fetch("https://cipherwall-backend.onrender.com/api/decrypt-image", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, key })
-    });
+  const res = await fetch("https://cipherwall-backend.onrender.com/api/image/decrypt", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, key })
+  });
 
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.error);
-    }
+  const data = await res.json();
 
-    const blob = await res.blob();
-    const imgURL = URL.createObjectURL(blob);
-
-    container.innerHTML = `<img src="${imgURL}" alt="Decrypted Image" style="max-width:100%; margin-top:10px;" />`;
-  } catch (err) {
-    container.innerHTML = `<p style="color:red;">❌ ${err.message}</p>`;
+  if (res.ok) {
+    const img = document.getElementById("decryptedImage");
+    img.src = data.decrypted;
+    img.hidden = false;
+  } else {
+    alert("❌ Decryption failed: " + data.error);
   }
 }

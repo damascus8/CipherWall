@@ -2,39 +2,69 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Image Encryptor | CipherWall</title>
-  <!-- <link rel="stylesheet" href="css/style.css" /> -->
-<link rel="stylesheet" href="css/image-encryptor.css" />
-
+  <title>🖼️ Image Encryptor</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #f2f2f2;
+    }
+    .input-group {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    input, button {
+      padding: 0.5rem;
+      width: 100%;
+    }
+    #imagePreview, #decryptedImage {
+      margin-top: 1rem;
+      max-width: 100%;
+      border: 2px dashed #ccc;
+    }
+    #qrContainer {
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🖼️ Image Encryptor</h1>
+  <h2>🖼️ Upload & Encrypt Image</h2>
 
-    <!-- Upload & Encrypt Section -->
-    <section>
-      <h2>🔐 Encrypt Image</h2>
-      <input type="file" id="imageInput" accept="image/*" />
-      <input type="password" id="encryptKey" placeholder="Enter secret key" />
-      <button onclick="uploadAndEncrypt()">Upload & Encrypt</button>
-      <p id="uploadResult"></p>
-    </section>
-
-    <hr/>
-
-    <!-- Decrypt Section -->
-    <section>
-      <h2>🔓 Decrypt Image</h2>
-      <input type="text" id="imageId" placeholder="Enter image ID" />
-      <input type="password" id="decryptKey" placeholder="Enter key" />
-      <button onclick="decryptAndShowImage()">Decrypt Image</button>
-      <div id="decryptedImageArea"></div>
-    </section>
+  <div class="input-group">
+    <label>Select an image</label>
+    <input type="file" id="imageInput" accept="image/*" />
   </div>
 
-  <script src="js/image-encryptor.js"></script>
+  <div class="input-group">
+    <label>Optional Password (for encryption)</label>
+    <input type="password" id="imageKey" placeholder="Enter password (optional)" />
+  </div>
+
+  <button onclick="encryptAndUploadImage()">🔐 Encrypt & Upload</button>
+
+  <img id="imagePreview" src="" hidden />
+
+  <div id="qrContainer"></div>
+
+  <hr />
+
+  <h2>🔓 Decrypt Image</h2>
+  <div class="input-group">
+    <label>Image ID (from QR or URL)</label>
+    <input type="text" id="decryptId" />
+  </div>
+  <div class="input-group">
+    <label>Password (if any)</label>
+    <input type="password" id="decryptKey" />
+  </div>
+
+  <button onclick="decryptImage()">🔓 Decrypt</button>
+  <img id="decryptedImage" hidden />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="/js/image-encryptor.js"></script>
 </body>
 </html>
-
-
