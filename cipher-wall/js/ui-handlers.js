@@ -33,6 +33,7 @@ function handleInputRules() {
 
   // Restrict message input for ROT13, Caesar, Morse
   if (["rot13", "caesar"].includes(type)) {
+    // console.info("SAMSUNG")
     messageInput.setAttribute("pattern", "[A-Za-z ]+");
     messageInput.setAttribute("title", "Only alphabets and spaces allowed.");
   } else {
@@ -57,9 +58,11 @@ if (type === "morse") {
   keyInput.disabled = false;
 
   if (type === "caesar") {
+    keyInput.type="number";//added by sid strict check
     keyInput.placeholder = "Enter numeric key (e.g. 3)";
     keyInput.setAttribute("pattern", "[0-9]+");
     keyInput.title = "Only numbers are allowed for Caesar Cipher.";
+    
   } else if (type === "aes") {
     keyInput.placeholder = "Enter secret key";
     keyInput.removeAttribute("pattern");

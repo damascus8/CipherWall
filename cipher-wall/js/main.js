@@ -1,6 +1,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   handleInputRules();
+  console.info("JEST 1");
   document.querySelector("button[onclick='process()']").onclick = process;
   document.querySelector("button[onclick='clearScreen()']").onclick = clearScreen;
   document.querySelector("button.download-btn").onclick = downloadResult;
