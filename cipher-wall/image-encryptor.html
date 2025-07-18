@@ -1,38 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Image Encryptor | CipherWall</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <title>Cipher Wall - View Image</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/image-view.css" />
 </head>
 <body>
   <div class="container">
-    <h1>🖼️ Image Encryptor</h1>
-
-    <!-- Upload & Encrypt Section -->
-    <section>
-      <h2>🔐 Encrypt Image</h2>
-      <input type="file" id="imageInput" accept="image/*" />
-      <input type="password" id="encryptKey" placeholder="Enter secret key" />
-      <button onclick="uploadAndEncrypt()">Upload & Encrypt</button>
-      <p id="uploadResult"></p>
-    </section>
-
-    <hr/>
-
-    <!-- Decrypt Section -->
-    <section>
-      <h2>🔓 Decrypt Image</h2>
-      <input type="text" id="imageId" placeholder="Enter image ID" />
-      <input type="password" id="decryptKey" placeholder="Enter key" />
-      <button onclick="decryptAndShowImage()">Decrypt Image</button>
-      <div id="decryptedImageArea"></div>
-    </section>
+    <h1>🔓 View Encrypted Image</h1>
+    <div id="input-section">
+      <label for="secretKey">Enter Secret Key:</label>
+      <input type="password" id="secretKey" placeholder="Enter your password" />
+      <button id="decryptBtn">Decrypt Image</button>
+    </div>
+    <div id="loader" class="hidden">Decrypting...</div>
+    <div id="image-section" class="hidden">
+      <h2>Decrypted Image:</h2>
+      <img id="decryptedImage" alt="Decrypted" />
+    </div>
+    <div id="error" class="error-message hidden"></div>
   </div>
 
-  <script src="js/views/image-encryptor.js"></script>
+  <script defer src="js/image-view.js"></script>
+  <script defer src="js/image-encryptor.js"></script>
 </body>
 </html>
-
-
