@@ -8,11 +8,11 @@ document.getElementById('encrypt-form').addEventListener('submit', async (e) => 
   formData.append('image', imageFile);
   formData.append('password', password);
 
-  const res = await fetch('/api/encrypt-image', {
+  const res = await fetch('https://cipherwall-backend.onrender.com/api/encrypt-image', {
     method: 'POST',
     body: formData
   });
-
+// 
   const data = await res.json();
   const imageUrl = `${window.location.origin}/api/decrypt-image/${data.id}?key=${encodeURIComponent(password)}`;
 
