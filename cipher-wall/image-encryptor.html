@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Encryptor</title>
+  <link rel="stylesheet" href="css/image-encryptor.css" />
+</head>
+<body>
+  <h2>🔐 Encrypt Image</h2>
+  <form id="encrypt-form">
+    <input type="file" id="image-input" required />
+    <input type="password" id="password-input" placeholder="Enter key/password" required />
+    <button type="submit">Encrypt</button>
+  </form>
+
+  <div id="qr-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="js/image-encryptor.js"></script>
+</body>
+</html>
