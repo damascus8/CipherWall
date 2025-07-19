@@ -14,7 +14,9 @@ document.getElementById('encrypt-form').addEventListener('submit', async (e) => 
   });
 // 
   const data = await res.json();
-  const imageUrl = `${window.location.origin}/api/decrypt-image/${data.id}?key=${encodeURIComponent(password)}`;
+  // const imageUrl = `${window.location.origin}/api/decrypt-image/${data.id}?key=${encodeURIComponent(password)}`;
+
+  const imageUrl = `${window.location.origin}/view-image.html?id=${data.id}`;
 
   const qrContainer = document.getElementById('qr-container');
   qrContainer.innerHTML = '';
@@ -33,10 +35,6 @@ urlLink.style.marginTop = '15px';
 urlLink.style.color = '#0ff';
 urlLink.style.fontSize = '1rem';
 urlLink.target = '_blank';
-
 qrContainer.appendChild(urlLink);
-
-
-
 
 });
