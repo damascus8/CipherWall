@@ -69,5 +69,3 @@ window.copyToClipboard = function () {
 }
 
 
-
-// 🔁 Typing animation for "CIPHER WALL"

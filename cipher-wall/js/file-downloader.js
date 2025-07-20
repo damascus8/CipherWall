@@ -36,3 +36,5 @@
     URL.revokeObjectURL(url);
   }
 };
+
+window.Downloader = Downloader;
