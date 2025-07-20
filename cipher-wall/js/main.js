@@ -1,7 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-
   const text = "CIPHER WALL";
   const typingTarget = document.getElementById("typing-text");
   let index = 0;
@@ -55,12 +54,7 @@ document.getElementById("generateQRBtn").onclick = () => {
 };
 
 
-
-
-
 });
-
-
 
 
 window.copyToClipboard = function () {

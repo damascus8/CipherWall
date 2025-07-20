@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 🔁 Change Start: Supported local-only decryption types
   const localTypes = ["base64", "rot13", "morse"];
 
-  
   // 🔁 Change End
 
   console.log("params"+params.toString());
@@ -38,13 +37,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.currentEncType = type;
   }
 
-
   // 🔁 Change End
 
   // 🔁 Change Start: Handle local decryption
 
   
-
   // else if (enc && rawData && localTypes.includes(type)) {
   //   console.log("ss"+localTypes.includes(type))
   //    encryptedText = decodeURIComponent(rawData);

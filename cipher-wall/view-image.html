@@ -1,0 +1,23 @@
+<!-- view-image.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Encrypted Image</title>
+  <style>
+    body { background: #111; color: white; font-family: sans-serif; text-align: center; padding: 2rem; }
+    img { max-width: 90%; margin-top: 2rem; border: 2px solid #fff; }
+    input, button { padding: 10px; font-size: 1rem; margin: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>🔐 Enter Key to View Image</h2>
+  <input type="password" id="key-input" placeholder="Enter decryption key" />
+  <button onclick="decryptImage()">Unlock</button>
+
+  <div id="image-container"></div>
+  <script src="js/view-image.js"></script>
+
+</body>
+</html>
