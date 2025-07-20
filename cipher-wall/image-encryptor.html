@@ -6,16 +6,68 @@
   <link rel="stylesheet" href="css/image-encryptor.css" />
 </head>
 <body>
-  <h2>🔐 Encrypt Image</h2>
+  <!-- <h2>🔐 Encrypt Image</h2>
   <form id="encrypt-form">
     <input type="file" id="image-input" required />
     <input type="password" id="password-input" placeholder="Enter key/password" required />
     <button type="submit">Encrypt</button>
   </form>
 
-  <div id="qr-container"></div>
+  <div id="qr-container"></div> -->
+
+
+
+<div class="container">
+    <h1>🛡️ Encrypt Your Image</h1>
+
+    <form id="encrypt-form">
+      <!-- <label for="image-input">📷 Select Image</label>
+      <input type="file" id="image-input" accept="image/*" required /> -->
+
+
+      <div class="form-group">
+  <label for="image-input">📷 Select Image</label>
+  <input type="file" id="image-input" accept="image/*" required />
+</div>
+      <!-- <label for="password-input">🔑 Enter Password</label>
+      <input type="password" id="password-input" placeholder="Encryption Password" required />
+     -->
+    <div class="form-group">
+  <label for="password-input">🔑 Enter Password</label>
+  <input type="password" id="password-input" placeholder="Encryption Password" required />
+</div>
+
+
+    
+      
+<button id="encrypt-button" type="submit">🔐 Encrypt Image</button>
+    
+    
+    </form>
+    <!-- Image preview box -->
+    <div id="preview-container" style="display: none;">
+      <h3>🖼️ Preview</h3>
+      <img id="image-preview" src="" />
+    </div>
+
+    <!-- Loading animation -->
+    <div id="loading" style="display: none;">
+      <div class="loader"></div>
+      <p>Encrypting image... please wait</p>
+    </div>
+
+    <!-- Final result (QR + link) -->
+    <div id="qr-container" style="display: none;">
+      <h3>✅ Encrypted Successfully</h3>
+      <div id="qr-code"></div>
+      <a id="encrypted-link" target="_blank"></a>
+    </div>
+  </div>
+
+
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script src="js/image-encryptor.js"></script>
+  <script src="css/image-encryptor.css"></script>
 </body>
 </html>
