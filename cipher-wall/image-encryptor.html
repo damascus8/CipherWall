@@ -1,74 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Image Encryptor</title>
   <link rel="stylesheet" href="css/image-encryptor.css" />
 </head>
 <body>
-  <!-- <h2>🔐 Encrypt Image</h2>
-  <form id="encrypt-form">
-    <input type="file" id="image-input" required />
-    <input type="password" id="password-input" placeholder="Enter key/password" required />
-    <button type="submit">Encrypt</button>
-  </form>
-
-  <div id="qr-container"></div> -->
-
-
-
-<div class="container">
+  <div class="container">
     <h1>🛡️ Encrypt Your Image</h1>
 
+    <!-- 🔐 Upload + Password Form -->
     <form id="encrypt-form">
-      <!-- <label for="image-input">📷 Select Image</label>
-      <input type="file" id="image-input" accept="image/*" required /> -->
-
+      <div class="form-group">
+        <label for="image-input">📷 Select Image</label>
+        <input type="file" id="image-input" accept="image/*" required />
+      </div>
 
       <div class="form-group">
-  <label for="image-input">📷 Select Image</label>
-  <input type="file" id="image-input" accept="image/*" required />
-</div>
-      <!-- <label for="password-input">🔑 Enter Password</label>
-      <input type="password" id="password-input" placeholder="Encryption Password" required />
-     -->
-    <div class="form-group">
-  <label for="password-input">🔑 Enter Password</label>
-  <input type="password" id="password-input" placeholder="Encryption Password" required />
-</div>
+        <label for="password-input">🔑 Enter Password</label>
+        <input type="password" id="password-input" placeholder="Encryption Password" required />
+      </div>
 
-
-    
-      
-<button id="encrypt-button" type="submit">🔐 Encrypt Image</button>
-    
-    
+      <button id="encrypt-button" type="submit">🔐 Encrypt Image</button>
     </form>
-    <!-- Image preview box -->
-<!-- 
+
+    <!-- 🖼️ Image Preview -->
     <div id="preview-container" style="display: none;">
       <h3>🖼️ Preview</h3>
       <img id="image-preview" src="" />
-    </div> -->
+    </div>
 
-    <!-- Loading animation -->
+    <!-- 🔄 Loading -->
     <div id="loading" style="display: none;">
       <div class="loader"></div>
       <p>Encrypting image... please wait</p>
     </div>
 
-    <!-- Final result (QR + link) -->
+    <!-- ✅ Result Output -->
     <div id="qr-container" style="display: none;">
       <h3>✅ Encrypted Successfully</h3>
       <div id="qr-code"></div>
-      <a id="encrypted-link" target="_blank"></a>
+      <br>
+      <br>
+      <a id="encrypted-link" target="_blank">🔗 Open Encrypted Image</a>
     </div>
   </div>
 
-
-
+  <!-- 📦 Required Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="js/file-downloader.js"></script>  <!-- ⬅️ must be before encryptor -->
   <script src="js/image-encryptor.js"></script>
-  <script src="css/image-encryptor.css"></script>
 </body>
 </html>

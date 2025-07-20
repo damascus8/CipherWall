@@ -58,6 +58,20 @@ async function decryptImage() {
     img.src = imgURL;
     img.alt = 'Decrypted Image';
 
+//
+//adding downloader code
+//
+const downloadBtn = document.createElement('button');
+downloadBtn.textContent = '⬇️ Download Image';
+downloadBtn.id = 'download-btn';
+downloadBtn.onclick = () => Downloader.downloadImage(imgURL, 'decrypted-image.png');
+
+container.appendChild(downloadBtn);
+
+//////
+
+
+
     container.innerHTML = '';
     container.appendChild(img);
 
