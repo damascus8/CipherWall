@@ -28,44 +28,122 @@
       word-break: break-word;
     }
    
-    
+
+.footer {
+  color: black;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1rem;
+  background: transparent;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.footer a {
+  color: #ff4b4b;
+  text-decoration: none;
+  font-weight: bold;
+  position: relative;
+}
+
+.footer a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #ff4b4b;
+  bottom: -3px;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.footer a:hover::after {
+  transform: scaleX(1);
+}
+
+.footer .heart {
+  animation: pulse 1.5s infinite;
+  display: inline-block;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}    
   </style>
 </head>
 <body>
 
   <h1>📘 How to Use Cipher Wall</h1>
+<pre>
+👋 Welcome to Cipher Wall — Your Personal Message Shield
 
-  <pre>
-Welcome to Cipher Wall, a simple and secure platform to encrypt or decrypt your messages using various methods.
+Cipher Wall is a secure, offline tool for encrypting, decrypting, storing, and sharing your sensitive text and image data.
 
-🔧 What You Can Do:
-- Encrypt/Decrypt using AES, Base64, ROT13, Caesar Cipher, Morse Code
-- Download input/output as a text file
-- Auto-generate logs of each action
-- Clear screen anytime
+──────────────────────────────────────────────
+🧩 Features Covered
 
-📝 How to Use:
-1. Enter your message in the "Message" box
-2. (Optional) Enter a key — required for AES and Caesar
-3. Select Encryption Type
-4. Choose Encrypt or Decrypt
-5. Click "Go"
-6. See your result instantly
-7. Download result as a .txt file if needed
+🔐 TEXT ENCRYPTION/DECRYPTION
+- Supports: AES, Base64, ROT13, Caesar Cipher, Morse Code
+- Input your message and (optionally) a key
+- Works instantly in the browser
 
-🧠 Tips:
-- Use strong passwords for AES
-- ROT13 doesn't need a key
-- Morse uses "/" for spaces
-- Caesar needs a numeric key (like 3)
+🖼️ IMAGE ENCRYPTION/DECRYPTION
+- Select any image (PNG, JPG, etc.)
+- Set a strong password
+- Image is encrypted and uploaded securely
+- Generates a downloadable encrypted file + QR link for retrieval
 
-🔒 Privacy Note:
-Cipher Wall is 100% offline. No data leaves your browser. You own your data.
+📤 QR CODE GENERATION
+- Generate QR codes for encrypted or plain messages
+- Shareable and scannable via mobile
+- QR links redirect to a safe `message-view.html` page with decryption options
 
-👨‍💻 Created By: Siddharth Shrivastav
+📥 QR SCANNING & VIEWING
+- Scan generated QR using your device
+- Auto-loads the encrypted content into a secure reader
+- Prompted to enter the password/key (if required) to decrypt
 
-📎 Need Help? Go back to the main app and click ❓ anytime.
-  </pre>
+📄 DOWNLOAD FUNCTIONALITY
+- Download input/output messages as `.txt` files
+- Encrypted images can also be downloaded locally
+- Secure file naming based on timestamp
+
+🧾 ACTION LOGGING
+- Auto-generates and appends actions in an on-screen log
+- Useful for tracing your encryption/decryption activity
+
+🌐 URL-BASED MESSAGE SHARING
+- Encrypted messages are hosted with unique IDs
+- URLs redirect to viewer with a pre-filled data field
+- Only those with the URL + key can decrypt
+
+🧠 TIPS FOR BEST USE
+- AES & Caesar require a key — choose wisely
+- ROT13, Base64, and Morse don’t need a key
+- Use numeric keys for Caesar (e.g., 3)
+- Morse uses `/` for spaces
+- Never reuse sensitive passwords across services
+
+🔒 PRIVACY PROMISE
+- 100% client-side operations for text
+- No text data is sent to any server unless using hosted QR link
+- Image encryption sends data securely to backend for temporary storage
+- All encrypted files are safe and non-readable without your password
+
+👨‍💻 BUILT BY: Siddharth Shrivastav  
+🔗 For support, return to the main screen and click ❓ anytime
+
+──────────────────────────────────────────────
+✨ Cipher Wall: Because Privacy Deserves Simplicity.
+</pre>
+<div class="footer">
+  Made with <span class="heart">❤️</span> by 
+  <a href="https://www.linkedin.com/in/siddharth-shrivastav-a47480167" target="_blank">Siddharth Shrivastav</a>
+</div>
 
   <p style="text-align:center; margin-top: 40px;">
     🔙 <a href="index.html">Back to Cipher Wall</a>

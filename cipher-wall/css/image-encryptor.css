@@ -76,7 +76,7 @@ form .form-group label {
 
 #encrypt-button {
   background: linear-gradient(135deg, #00feba, #5b5bff);
-  color: white;
+  color: red;
   padding: 12px 30px;
   font-size: 1rem;
   font-weight: bold;
@@ -114,4 +114,49 @@ form .form-group label {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 1rem;
+  color: white;
+  background: transparent;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.footer a {
+  color: #ff4b4b;
+  text-decoration: none;
+  font-weight: bold;
+  position: relative;
+}
+
+.footer a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #ff4b4b;
+  bottom: -3px;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.footer a:hover::after {
+  transform: scaleX(1);
+}
+
+.footer .heart {
+  animation: pulse 1.5s infinite;
+  display: inline-block;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
 }

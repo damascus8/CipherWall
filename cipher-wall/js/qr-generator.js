@@ -16,15 +16,6 @@ const loader = document.getElementById("qrLoader");
 loader.classList.remove("hidden");
 qrOutput.innerHTML = "";
 
-
-
-//
-
-
-
-
-
-
   qrOutput.innerHTML = "";
   qrLink.textContent = "";
   qrLink.href = "#";
@@ -91,6 +82,30 @@ function showQRCode(url) {
   qrLink.textContent = url;
   qrLink.href = url;
   qrLinkSection.classList.remove("hidden");
+
+  //download btn
+  // 📥 Add Download QR Button
+const downloadBtn = document.createElement("button");
+downloadBtn.textContent = "📥 Download QR Code";
+downloadBtn.className = "download-btn"; // Add a class for styling
+downloadBtn.onclick = () => {
+const qrCanvas = qrOutput.querySelector("canvas");
+if (!qrCanvas) return alert("❌ QR not rendered yet.");
+const link = document.createElement("a");
+link.download = "cipherwall-qr.png";
+link.href = qrCanvas.toDataURL("image/png");
+link.click();
+};
+
+// 🧹 Remove previous button (if any)
+const oldBtn = document.getElementById("qrDownloadBtn");
+if (oldBtn) oldBtn.remove();
+downloadBtn.id = "qrDownloadBtn";
+
+// 📦 Append below QR
+qrOutput.appendChild(document.createElement("br"));
+qrOutput.appendChild(downloadBtn);
+
 
   window.latestQRLink = url;
 }
