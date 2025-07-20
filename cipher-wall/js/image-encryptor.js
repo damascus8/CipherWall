@@ -39,70 +39,76 @@
 
 // });
 /////////////////////////
+
+
 document.getElementById('encrypt-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const imageFile = document.getElementById('image-input').files[0];
-  const password = document.getElementById('password-input').value;
-
-  const encryptBtn = document.getElementById('encrypt-button');
+  const imageInput = document.getElementById('image-input');
+  const passwordInput = document.getElementById('password-input');
+  const previewContainer = document.getElementById('preview-container');
+  const imagePreview = document.getElementById('image-preview');
+  const loading = document.getElementById('loading');
   const qrContainer = document.getElementById('qr-container');
+  const qrCode = document.getElementById('qr-code');
+  const encryptedLink = document.getElementById('encrypted-link');
 
-  // 🌐 UI loading state
-  encryptBtn.disabled = true;
-  encryptBtn.innerHTML = '🔄 Encrypting... Please wait';
-  qrContainer.innerHTML = `
-    <div style="color: #0ff; font-size: 1rem; margin-top: 10px;">
-      🔐 Processing your image securely...
-    </div>
-  `;
+  const imageFile = imageInput.files[0];
+  const password = passwordInput.value;
 
-  const formData = new FormData();
-  formData.append('image', imageFile);
-  formData.append('password', password);
+  // ✅ Show image preview
+  if (imageFile) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      imagePreview.src = reader.result;
+      previewContainer.style.display = 'block';
+    };
+    reader.readAsDataURL(imageFile);
+  }
+
+  // ✅ Hide previous results
+  qrCode.innerHTML = '';
+  encryptedLink.innerHTML = '';
+  qrContainer.style.display = 'none';
+
+  // ✅ Show loading
+  loading.style.display = 'block';
 
   try {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    formData.append('password', password);
+
     const res = await fetch('https://cipherwall-backend.onrender.com/api/encrypt-image', {
       method: 'POST',
       body: formData
     });
 
     const data = await res.json();
+
+    if (!data || !data.id) {
+      throw new Error("Invalid response from server");
+    }
+
+    // ✅ Construct encrypted image URL
     const imageUrl = `${window.location.origin}/view-image.html?id=${data.id}`;
 
-    // 🎯 Clear and generate QR
-    qrContainer.innerHTML = '';
+    // ✅ Generate QR Code
     const canvas = document.createElement('canvas');
+    await QRCode.toCanvas(canvas, imageUrl);
+    qrCode.appendChild(canvas);
 
-    QRCode.toCanvas(canvas, imageUrl, (err) => {
-      if (!err) {
-        canvas.style.border = '2px solid #0ff';
-        canvas.style.marginTop = '10px';
-        canvas.style.padding = '10px';
-        qrContainer.appendChild(canvas);
-      } else {
-        qrContainer.innerHTML = `<p style="color: red;">❌ Error generating QR.</p>`;
-      }
-    });
+    // ✅ Setup clickable link
+    encryptedLink.href = imageUrl;
+    encryptedLink.textContent = '🔗 Click here to visit the PATH';
 
-    // 🔗 Create direct link
-    const urlLink = document.createElement('a');
-    urlLink.href = imageUrl;
-    urlLink.textContent = '🔗 Click here to view encrypted image';
-    urlLink.style.display = 'block';
-    urlLink.style.marginTop = '15px';
-    urlLink.style.color = '#0ff';
-    urlLink.style.fontSize = '1rem';
-    urlLink.target = '_blank';
-    qrContainer.appendChild(urlLink);
-
+    // ✅ Show QR and link container
+    qrContainer.style.display = 'block';
   } catch (err) {
-    console.error(err);
-    qrContainer.innerHTML = `<p style="color: red;">❌ Error encrypting image.</p>`;
+    console.error('Encryption error:', err);
+    qrCode.innerHTML = `<p style="color:red;">❌ Error encrypting image. Try again.</p>`;
+    qrContainer.style.display = 'block';
+  } finally {
+    loading.style.display = 'none';
   }
-
-  // ✅ Reset button
-  encryptBtn.disabled = false;
-  encryptBtn.innerHTML = '🔐 Encrypt Image';
 });
-

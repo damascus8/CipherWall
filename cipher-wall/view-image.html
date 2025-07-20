@@ -1,4 +1,4 @@
-<!-- view-image.html -->
+<!-- view-image.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,4 +20,36 @@
   <script src="js/view-image.js"></script>
 
 </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🔓 View Decrypted Image</title>
+  <link rel="stylesheet" href="css/view-image.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Decrypt Image</h1>
+    <p class="subtitle">Securely view encrypted images by entering the correct key.</p>
+
+    <div class="form-group">
+      <input type="password" id="key-input" placeholder="Enter decryption key" />
+      <button id="decrypt-btn" onclick="decryptImage()">🔓 Unlock</button>
+    </div>
+
+    <div id="status-message"></div>
+
+    <div id="image-container">
+      <!-- Decrypted image will appear here -->
+    </div>
+  </div>
+
+  <script src="js/view-image.js"></script>
+    
+</body>
 </html>
+
+
