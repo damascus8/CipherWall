@@ -132,17 +132,18 @@ async function decryptMessage() {
 function revealText(text) {
   const display = document.getElementById("messageDisplay");
   display.classList.remove("hidden");
-  display.textContent = "";
+  // display.textContent = "";
+ display.textContent = text;
 
-  let index = 0;
-  const interval = setInterval(() => {
-    if (index <= text.length) {
-      display.textContent = text.slice(0, index);
-      index++;
-    } else {
-      clearInterval(interval);
-    }
-  }, 30);
+  // let index = 0;
+  // const interval = setInterval(() => {
+  //   if (index <= text.length) {
+  //     display.textContent = text.slice(0, index);
+  //     index++;
+  //   } else {
+  //     clearInterval(interval);
+  //   }
+  // }, 30);
 }
 
 // 🔁 Change Start: Add local decryption handler
