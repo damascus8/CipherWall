@@ -20,10 +20,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 🔁 Change End
 
-  console.log("params"+params.toString());
-  console.log("rawData"+rawData);
-  // console.log("max "+params.get("payload"));
-  console.log("XX local type"+localTypes.includes(type));
   if (!messageId && !rawData) {
     status.textContent = "❌ Invalid or missing message reference.";
     return;
@@ -39,25 +35,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 🔁 Change End
 
-  // 🔁 Change Start: Handle local decryption
-
   
-  // else if (enc && rawData && localTypes.includes(type)) {
-  //   console.log("ss"+localTypes.includes(type))
-  //    encryptedText = decodeURIComponent(rawData);
-  //   console.log("sid"+encryptedText)
-  //   try {
-  //     const decrypted = decryptLocal(encryptedText, type);
-  //     console.log("decrypted"+decrypted)
-  //     revealText(decrypted);
-  //     status.textContent = `✅ Message decrypted using ${type.toUpperCase()} (Local)`;
-  //   } catch (err) {
-  //     console.error("❌ Local decryption error:", err.message);
-  //     status.textContent = "❌ Failed to decrypt message.";
-  //   }
-  // }
-  // // 🔁 Change End
-
+  
 
 
 // 🔁 Change Start: Handle local decryption from DB payload
@@ -86,7 +65,7 @@ else if (enc && messageId && localTypes.includes(type)) {
   // 🔁 Change Start: Plaintext fallback
   else {
     const plain = decodeURIComponent(rawData || "");
-    console.log("plain"+plain)
+    
     if (!plain) {
       status.textContent = "❌ Failed to read plain message.";
     } else {
@@ -132,23 +111,26 @@ async function decryptMessage() {
 function revealText(text) {
   const display = document.getElementById("messageDisplay");
   display.classList.remove("hidden");
-  // display.textContent = "";
- display.textContent = text;
 
-  // let index = 0;
-  // const interval = setInterval(() => {
-  //   if (index <= text.length) {
-  //     display.textContent = text.slice(0, index);
-  //     index++;
-  //   } else {
-  //     clearInterval(interval);
-  //   }
-  // }, 30);
+//  display.textContent = text;
+
+
+//change the time for more slower text below
+display.textContent = "";
+  let index = 0;
+  const interval = setInterval(() => {
+    if (index <= text.length) {
+      display.textContent = text.slice(0, index);
+      index++;
+    } else {
+      clearInterval(interval);
+    }
+  }, 2);
 }
 
 // 🔁 Change Start: Add local decryption handler
 function decryptLocal(text, type) {
-  console.log("decrypting local")
+  // console.log("decrypting local")
   switch (type) {
     case "base64":
       return atob(text);
